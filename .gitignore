@@ -1,0 +1,14 @@
+# Logs
+*.log
+
+# Pycharm
+.idea
+
+# Vim
+
+*~
+*.swp
+*.swo
+
+# emacs
+.dir-locals.el
