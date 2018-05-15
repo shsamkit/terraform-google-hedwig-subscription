@@ -1,6 +1,7 @@
 language: go
-
 go:
-  - "1.10.x"
-
+- 1.10.x
 script: make test
+notifications:
+  slack:
+    secure: z51bNg+yJ5Lf0xUDTcI8x8rXJiYXcNbWvK2HdcRidzAvQzokJQlNwojVoOCq4zEYrixGG7tppi6FUeYrjPmQ0BOSRQEau5kp0+N5qPvhQ9rutmioywi9EtEQRIUxqg1emvsasb7zvSteaV0VBP6Cgl0YfBHn4jbUbcbliTwGxCqcMaXKcLFTyGijfn+0Gxy+6k6ZJi/iTAguLFAlr54NVKZUs1p3LtSiPPnSNuW6zT2/fiYOQzV/QXrPJEFP59ScPOTKSCZNZYjWZA+VnoT+rwc7Slz3brXrkGzKufkSNyhOQDtHB1afd4X/garzu5ZY/eNo6ILt48oRTByuoaHhtUnMj9GzA4uPQUdgpNXOZahv8mtMxJ4A+Nud265KvCVCBiV/3e/Rx+NPZSn53dTriDoSEwQui/4LHrd3LsPQl1DGCsi5rHkKtP/MbuOAC5OnS6QhM9PyaBWZxFXUfbuROiGsveoiU6PkFVNjRMS6CyWOafG1PNhzR3eTCCcob+OYoagYijc/O5UvgsGO4oK6LYeugYM6IK8fZPoOOhO7Tbqx9S+ke0DWoqgdCYwuYdyUvdqisKBzWXCa5wlO3zBZepVCjsuYb3R9KCE2Yjvo5Nf5YaEo/c9ELK2XLHPDbxy5dsF9Xrz6G0h9OS+XoHJQfWOXnS2Qt8Rj52l6VKhyTHs=
