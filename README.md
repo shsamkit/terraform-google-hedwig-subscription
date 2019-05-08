@@ -1,39 +1,49 @@
-Hedwig Queue App Subscription Terraform module
-==============================================
+Hedwig App Subscription Terraform module
+========================================
 
-[Hedwig](https://github.com/Automatic/hedwig) is a inter-service communication bus that works on AWS SQS/SNS, while keeping things pretty simple and
+[Hedwig](https://github.com/Automatic/hedwig) is a inter-service communication bus that works on Google Pub/Sub, while keeping things pretty simple and
 straight forward. It uses [json schema](http://json-schema.org/) draft v4 for schema validation so all incoming
 and outgoing messages are validated against pre-defined schema.
 
 This module provides a custom [Terraform](https://www.terraform.io/) modules for deploying Hedwig infrastructure that
-creates Hedwig subscriptions for Hedwig consumer apps.
+creates infra for Hedwig consumer app.
 
 ## Usage
 
 ```hcl
 module "topic-dev-user-updated-v1" {
-  source = "Automatic/hedwig-topic/aws"
+  source = "standard-ai/hedwig-topic/google"
   topic  = "dev-user-updated-v1"
 }
 
-module "consumer-dev-app" {
-  source = "Automatic/hedwig-queue/aws"
-  topic  = "dev-myapp"
-}
-
 module "sub-dev-myapp-dev-user-updated" {
-  source = "Automatic/hedwig-queue-subscription/aws"
-  queue  = "${module.consumer-dev-app.queue_arn}"
-
-  topic = "${module.topic-dev-user-updated-v1.arn}"
+  source = "standard-ai/hedwig-subscription/google"
+  topic  = "${module.topic-dev-user-updated-v1.name}"
+  name   = "dev-myapp"
 }
 ```
 
+It's recommended that `subscription` include your environment. 
+
+Naming convention - lowercase alphanumeric and dashes only.
+
+Please note Google's restrictions (if not followed, errors may be confusing and often totally wrong):
+- [Labels](https://cloud.google.com/pubsub/docs/labels#requirements)
+- [Resource names](https://cloud.google.com/pubsub/docs/admin#resource_names) 
+
+The Google subscription name will be prefixed by `hedwig-`.
+
+## Caveats
+
+Google limits the [lifecycle](https://cloud.google.com/pubsub/docs/subscriber#lifecycle) of a subscription. By default, if a subscription
+has not received any messages in 31 days, it'll be deleted. Terraform currently [does not support](https://github.com/terraform-providers/terraform-provider-google/issues/2507) 
+overriding this behavior.  
+
 ## Release Notes
 
-[Github Releases](https://github.com/Automatic/terraform-aws-hedwig-queue-subscription/releases)
+[Github Releases](https://github.com/standard-ai/terraform-google-hedwig-subscription/releases)
 
 ## How to publish
 
-Go to [Terraform Registry](https://registry.terraform.io/modules/Automatic/hedwig-queue-subscription/aws), and 
+Go to [Terraform Registry](https://registry.terraform.io/modules/standard-ai/hedwig-subscription/google), and 
 Resync module.
