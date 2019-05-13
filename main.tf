@@ -11,12 +11,14 @@ resource "google_pubsub_subscription" "subscription" {
 data "google_client_config" "current" {}
 
 resource "google_dataflow_job" "dataflow" {
-  name = "${google_pubsub_subscription.subscription.name}"
+  name              = "${google_pubsub_subscription.subscription.name}"
   temp_gcs_location = "${var.dataflow_tmp_gcs_location}"
   template_gcs_path = "${var.dataflow_template_gcs_path}"
 
+  zone = "${var.dataflow_zone}"
+
   parameters = {
     inputSubscription = "projects/${data.google_client_config.current.project}/subscriptions/${google_pubsub_subscription.subscription.name}"
-    outputTopic = "projects/${data.google_client_config.current.project}/topics/hedwig-${var.queue}"
+    outputTopic       = "projects/${data.google_client_config.current.project}/topics/hedwig-${var.queue}"
   }
 }
