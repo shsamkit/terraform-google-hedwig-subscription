@@ -23,7 +23,8 @@ module "sub-dev-myapp-dev-user-updated" {
 }
 ```
 
-It's recommended that `subscription` include your environment. 
+If using a single Google project for multiple environments (e.g. dev/staging/prod), ensure that `name` includes your 
+environment name.
 
 Naming convention - lowercase alphanumeric and dashes only.
 
