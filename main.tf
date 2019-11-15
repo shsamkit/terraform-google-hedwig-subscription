@@ -6,4 +6,6 @@ resource "google_pubsub_subscription" "subscription" {
   ack_deadline_seconds = 20
 
   labels = "${var.labels}"
+
+  expiration_policy = {}
 }
