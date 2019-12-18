@@ -7,5 +7,7 @@ resource "google_pubsub_subscription" "subscription" {
 
   labels = "${var.labels}"
 
-  expiration_policy {}
+  expiration_policy {
+    ttl = ""
+  }
 }
