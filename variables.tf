@@ -10,3 +10,8 @@ variable "labels" {
   description = "Labels to attach to the subscription"
   type        = "map"
 }
+
+variable "iam_service_account" {
+  description = "The IAM service account to create exclusive IAM permissions for the subscription"
+  default     = ""
+}
