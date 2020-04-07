@@ -1,3 +1,5 @@
+data "google_project" "current" {}
+
 resource "google_pubsub_subscription" "subscription" {
   // topic name already has the `hedwig-` prefix which doesn't need to be duplicated.
   name  = "hedwig-${var.queue}-${substr(var.topic, length("hedwig-"), -1)}"
@@ -9,6 +11,11 @@ resource "google_pubsub_subscription" "subscription" {
 
   expiration_policy {
     ttl = ""
+  }
+
+  dead_letter_policy {
+    dead_letter_topic     = "projects/${data.google_project.current.project_id}/topics/hedwig-${var.queue}-dlq"
+    max_delivery_attempts = 5
   }
 }
 
