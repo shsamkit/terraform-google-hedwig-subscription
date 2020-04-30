@@ -8,7 +8,7 @@ variable "topic" {
 
 variable "labels" {
   description = "Labels to attach to the subscription"
-  type        = "map"
+  type        = map(string)
 }
 
 variable "iam_service_account" {

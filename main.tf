@@ -3,11 +3,11 @@ data "google_project" "current" {}
 resource "google_pubsub_subscription" "subscription" {
   // topic name already has the `hedwig-` prefix which doesn't need to be duplicated.
   name  = "hedwig-${var.queue}-${substr(var.topic, length("hedwig-"), -1)}"
-  topic = "${var.topic}"
+  topic = var.topic
 
   ack_deadline_seconds = 20
 
-  labels = "${var.labels}"
+  labels = var.labels
 
   expiration_policy {
     ttl = ""
@@ -32,8 +32,8 @@ data "google_iam_policy" "subscription_policy" {
 }
 
 resource "google_pubsub_subscription_iam_policy" "subscription_policy" {
-  count = "${var.iam_service_account == "" ? 0 : 1}"
+  count = var.iam_service_account == "" ? 0 : 1
 
-  policy_data  = "${data.google_iam_policy.subscription_policy.policy_data}"
-  subscription = "${google_pubsub_subscription.subscription.name}"
+  policy_data  = data.google_iam_policy.subscription_policy.policy_data
+  subscription = google_pubsub_subscription.subscription.name
 }
