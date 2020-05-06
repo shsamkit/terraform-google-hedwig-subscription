@@ -21,13 +21,19 @@ resource "google_pubsub_subscription" "subscription" {
 
 data "google_iam_policy" "subscription_policy" {
   binding {
-    members = ["serviceAccount:${var.iam_service_account}"]
-    role    = "roles/pubsub.subscriber"
+    members = [
+      "serviceAccount:${var.iam_service_account}",
+      "serviceAccount:service-${data.google_project.current.number}@gcp-sa-pubsub.iam.gserviceaccount.com"
+    ]
+    role = "roles/pubsub.subscriber"
   }
 
   binding {
-    members = ["serviceAccount:${var.iam_service_account}"]
-    role    = "roles/pubsub.viewer"
+    members = [
+      "serviceAccount:${var.iam_service_account}",
+      "serviceAccount:service-${data.google_project.current.number}@gcp-sa-pubsub.iam.gserviceaccount.com"
+    ]
+    role = "roles/pubsub.viewer"
   }
 }
 
