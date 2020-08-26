@@ -1,11 +1,13 @@
 data "google_project" "current" {}
 
 locals {
-  cross_project = length(regexall("/", var.topic)) > 0
-  topic_name    = local.cross_project ? split("/", var.topic)[3] : var.topic
+  regex_result  = regexall("projects/([^/]+)/topics/(.+)", var.topic)
+  cross_project = length(local.regex_result) > 0
+  topic_name    = local.cross_project ? local.regex_result[0][1] : var.topic
   // topic name already has the `hedwig-` prefix which doesn't need to be duplicated.
   truncated_topic_name = replace(local.topic_name, "hedwig-", "")
-  subscription_name    = "hedwig-${var.queue}-${local.truncated_topic_name}"
+  project_id           = local.cross_project ? local.regex_result[0][0] : ""
+  subscription_name    = local.cross_project ? "hedwig-${var.queue}-${local.project_id}-${local.truncated_topic_name}" : "hedwig-${var.queue}-${local.project_id}-${local.truncated_topic_name}"
 }
 
 resource "google_pubsub_subscription" "subscription" {
